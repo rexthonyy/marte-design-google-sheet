@@ -42,7 +42,7 @@ function sendOfferEmail(args) {
             }]);
         }
 
-        sendPostRequest(process.env.EMAIL_DISPATCHER_URL_V3, data)
+        sendPostRequest(args.isSendPDF ? process.env.EMAIL_DISPATCHER_URL_V3 : process.env.EMAIL_DISPATCHER_URL_V2, data)
             .then(json => {
                 if (json.status == 'success') {
                     resolve();
@@ -158,7 +158,7 @@ function sendInvoiceEmail(args) {
             }
         }
 
-        sendPostRequest(process.env.EMAIL_DISPATCHER_URL_V3, data)
+        sendPostRequest(args.isSendPDF ? process.env.EMAIL_DISPATCHER_URL_V3 : process.env.EMAIL_DISPATCHER_URL_V2, data)
             .then(json => {
                 if (json.status == 'success') {
                     resolve();
@@ -168,6 +168,7 @@ function sendInvoiceEmail(args) {
                 }
             }).catch(err => {
                 console.error("sendInvoiceEmail > sendPostRequest : " + err);
+                console.error(data);
                 reject(err);
             });
     });
